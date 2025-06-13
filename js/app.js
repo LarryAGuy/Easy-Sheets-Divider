@@ -356,7 +356,7 @@ const translations = {
         privacyFirst: 'Privacy-First',
 
         // Main Content
-        splitResults: '3. Split Results',
+        splitResults: '5. Split Results',
         uploadFileToBegin: 'Upload a file to begin splitting',
         selectProcessingMode: 'Select processing mode and upload files to begin',
 
