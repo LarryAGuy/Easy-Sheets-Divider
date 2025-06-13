@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/easy-sheets-divider.git"
+    "url": "git+https://github.com/LarryAGuy/Easy-Sheets-Divider.git"
   },
   "keywords": [
     "excel",
@@ -34,13 +34,13 @@
   "author": {
     "name": "Larry Hedrick",
     "email": "hedrick.larry@gmail.com",
-    "url": "https://github.com/your-username"
+    "url": "https://github.com/LarryAGuy"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/your-username/easy-sheets-divider/issues"
+    "url": "https://github.com/LarryAGuy/Easy-Sheets-Divider/issues"
   },
-  "homepage": "https://your-username.github.io/easy-sheets-divider",
+  "homepage": "https://larryaguy.github.io/Easy-Sheets-Divider",
   "devDependencies": {
     "http-server": "^14.1.1"
   },
