@@ -1,0 +1,78 @@
+{
+  "name": "easy-sheets-divider",
+  "version": "1.0.0",
+  "description": "A powerful, privacy-first web application for splitting large Excel, CSV, OpenOffice, and Google Sheets files into smaller, manageable spreadsheets",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8000 -c-1",
+    "dev": "http-server -p 8000 -c-1 -o",
+    "build": "echo 'No build process needed - static files only'",
+    "test": "echo 'Manual testing required - see CONTRIBUTING.md'",
+    "lint": "echo 'Linting not configured - contributions welcome'",
+    "serve": "python -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/easy-sheets-divider.git"
+  },
+  "keywords": [
+    "excel",
+    "csv",
+    "spreadsheet",
+    "file-splitter",
+    "data-processing",
+    "privacy-first",
+    "client-side",
+    "web-app",
+    "javascript",
+    "sheetjs",
+    "file-converter",
+    "batch-processing",
+    "openoffice",
+    "google-sheets"
+  ],
+  "author": {
+    "name": "Larry Hedrick",
+    "email": "hedrick.larry@gmail.com",
+    "url": "https://github.com/your-username"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-username/easy-sheets-divider/issues"
+  },
+  "homepage": "https://your-username.github.io/easy-sheets-divider",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "Chrome >= 80",
+    "Firefox >= 75",
+    "Safari >= 13",
+    "Edge >= 80"
+  ],
+  "files": [
+    "index.html",
+    "css/",
+    "js/",
+    "img/",
+    "manifest.json",
+    "security-config.js",
+    "sw.js",
+    "README.md",
+    "LICENSE",
+    "CONTRIBUTING.md"
+  ],
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "config": {
+    "port": 8000
+  },
+  "funding": {
+    "type": "paypal",
+    "url": "https://paypal.me/your-paypal"
+  }
+}
