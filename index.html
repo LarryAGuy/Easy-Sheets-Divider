@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="appTitle">Easy Sheets Divider</title>
+
+    <!-- Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- TLS 1.3 and HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload">
+
+    <!-- PWA and Chrome App Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Easy Sheets Divider">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="img/excel-icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+
+    <!-- Stylesheets and Scripts -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="compact-header">
+            <div class="header-content">
+                <div class="title-section">
+                    <h1 data-translate="appTitle">Easy Sheets Divider</h1>
+                    <p data-translate="appSubtitle">Split large spreadsheet files into smaller, manageable spreadsheets</p>
+                </div>
+                <div class="about-section">
+                    <div class="about-content">
+                        <h3 data-translate="aboutThisTool">About This Tool</h3>
+                        <p data-translate="aboutDescription">Split Excel, CSV, OpenOffice, and Google Sheets files by worksheet, column value, row count, or file size. All processing happens in your browser - your data never leaves your computer.</p>
+                        <div class="tech-info">
+                            <span class="tech-badge" data-translate="sheetJS">SheetJS</span>
+                            <span class="tech-badge" data-translate="clientSide">Client-Side</span>
+                            <span class="tech-badge" data-translate="privacyFirst">Privacy-First</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Button -->
+                <div class="header-actions">
+                    <button id="helpButton" class="help-button" onclick="openHelpGuideModal()" title="Open User Guide">
+                        <i class="fas fa-question-circle"></i>
+                        <span data-translate="helpGuide">Help Guide</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="sidebar-main">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                        <span class="sidebar-title" data-translate="options">Options</span>
+                    </button>
+                </div>
+
+                <div class="sidebar-content">
+                    <!-- Step 1: Processing Mode Selection -->
+                    <section class="sidebar-section">
+                        <h3 class="sidebar-heading">
+                            <span class="step-number">1</span>
+                            <span data-translate="processingMode">Processing Mode</span>
+                        </h3>
+
+                        <div class="mode-selection">
+                            <label class="mode-option">
+                                <input type="radio" name="processingMode" value="single" checked>
+                                <div class="mode-content">
+                                    <div class="mode-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                            <polyline points="14,2 14,8 20,8"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="mode-text">
+                                        <span class="mode-title" data-translate="singleFileMode">Single File</span>
+                                        <span class="mode-description" data-translate="singleFileDesc">Process one file at a time</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="mode-option">
+                                <input type="radio" name="processingMode" value="multi">
+                                <div class="mode-content">
+                                    <div class="mode-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                        </svg>
+                                    </div>
+                                    <div class="mode-text">
+                                        <span class="mode-title" data-translate="multiFileMode">Multi-File</span>
+                                        <span class="mode-description" data-translate="multiFileDesc">Batch process multiple files</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </section>
+
+                    <!-- Step 2: Upload Section -->
+                    <section class="sidebar-section">
+                        <h3 class="sidebar-heading">
+                            <span class="step-number">2</span>
+                            <span data-translate="uploadTitle">Upload Files</span>
+                        </h3>
+                        <div class="file-drop-area sidebar-drop" id="dropArea">
+                            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv,.ods,.gsheet,.fods" hidden>
+                            <label for="fileInput" class="file-label">
+                                <div class="file-message" id="fileMessage">
+                                    <img src="img/excel-icon.svg" alt="File icon" class="file-icon-small">
+                                    <span id="uploadText" data-translate="dropOrClick">Drop or click</span>
+                                    <small data-translate="excelCSVFiles">Excel, CSV, OpenOffice, Google Sheets files</small>
+                                </div>
+                                <div class="upload-indicator" id="uploadIndicator" style="display: none;">
+                                    <div class="upload-spinner"></div>
+                                    <span id="uploadIndicatorText" data-translate="reading">Reading...</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="fileInfo" class="file-info sidebar-info"></div>
+                        <div id="fileActions" class="file-actions" style="display: none;">
+                            <button id="clearFileButton" class="clear-button sidebar-button">
+                                <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                                <span data-translate="clear">Clear</span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Step 3: Options Section -->
+                    <section class="sidebar-section" id="optionsSection" style="display: none;">
+                        <h3 class="sidebar-heading">
+                            <span class="step-number">3</span>
+                            <span data-translate="splitMethod">Split Method</span>
+                        </h3>
+
+                        <div class="sidebar-radio-group">
+                            <label class="sidebar-radio"><input type="radio" name="splitMethod" value="bySheet" checked> <span data-translate="worksheet">Worksheet</span></label>
+                            <label class="sidebar-radio"><input type="radio" name="splitMethod" value="byColumn"> <span data-translate="column">Column</span></label>
+                            <label class="sidebar-radio"><input type="radio" name="splitMethod" value="byRowCount"> <span data-translate="rows">Rows</span></label>
+                            <label class="sidebar-radio"><input type="radio" name="splitMethod" value="byFileSize"> <span data-translate="size">Size</span></label>
+                        </div>
+
+                        <div id="sheetOptions" class="sidebar-details">
+                            <div class="sheet-list sidebar-list" id="sheetList"></div>
+                        </div>
+
+                        <div id="columnOptions" class="sidebar-details" style="display: none;">
+                            <select id="columnSelect" class="sidebar-input"></select>
+                            <label class="sidebar-checkbox">
+                                <input type="checkbox" id="includeHeadersCheck" checked> <span data-translate="includeHeaders">Include headers</span>
+                            </label>
+                        </div>
+
+                        <div id="rowCountOptions" class="sidebar-details" style="display: none;">
+                            <input type="number" id="rowsPerFile" min="1" value="1000" class="sidebar-input" data-translate-placeholder="rowsPerFile" placeholder="Rows per file">
+                            <label class="sidebar-checkbox">
+                                <input type="checkbox" id="includeHeadersRowCheck" checked> <span data-translate="includeHeaders">Include headers</span>
+                            </label>
+                        </div>
+
+                        <div id="fileSizeOptions" class="sidebar-details" style="display: none;">
+                            <div class="sidebar-size-group">
+                                <input type="number" id="maxFileSize" min="0.1" step="0.1" value="10" class="sidebar-input">
+                                <select id="fileSizeUnit" class="sidebar-input">
+                                    <option value="MB" selected>MB</option>
+                                    <option value="KB">KB</option>
+                                    <option value="GB">GB</option>
+                                </select>
+                            </div>
+                            <label class="sidebar-checkbox">
+                                <input type="checkbox" id="includeHeadersSizeCheck" checked> <span data-translate="includeHeaders">Include headers</span>
+                            </label>
+                            <small class="sidebar-hint">Email: 25MB, SharePoint: 100MB</small>
+                        </div>
+                    </section>
+
+                    <!-- Step 4: Output Options -->
+                    <section class="sidebar-section" id="outputSection" style="display: none;">
+                        <h3 class="sidebar-heading">
+                            <span class="step-number">4</span>
+                            <span data-translate="outputOptions">Output Options</span>
+                        </h3>
+
+                        <input type="text" id="outputPrefix" data-translate-placeholder="filePrefix" placeholder="File prefix" class="sidebar-input">
+
+                        <div class="sidebar-option-group">
+                            <label class="sidebar-label" data-translate="outputFormat">Output Format:</label>
+                            <div class="sidebar-format-grid">
+                                <label class="sidebar-inline"><input type="radio" name="outputFormat" value="xlsx" checked> <span data-translate="excelFormat">Excel (.xlsx)</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="outputFormat" value="csv"> <span data-translate="csvFormat">CSV (.csv)</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="outputFormat" value="ods"> <span data-translate="odsFormat">OpenOffice (.ods)</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="outputFormat" value="gsheet"> <span data-translate="gsheetFormat">Google Sheets</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="outputFormat" value="all"> <span data-translate="allFormats">All Formats</span></label>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-option-group">
+                            <label class="sidebar-label" data-translate="naming">Naming:</label>
+                            <div class="sidebar-inline-options">
+                                <label class="sidebar-inline"><input type="radio" name="namingScheme" value="sequential" checked> <span data-translate="simple">Simple</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="namingScheme" value="descriptive"> <span data-translate="detailed">Detailed</span></label>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-option-group">
+                            <label class="sidebar-checkbox">
+                                <input type="checkbox" id="enableConditionalSplitting">
+                                <span data-translate="enableConditionalSplitting">Enable Conditional Splitting</span>
+                            </label>
+                            <small class="sidebar-hint" data-translate="conditionalSplittingHint">Split based on cell values, dates, or conditions</small>
+                        </div>
+
+                        <div class="sidebar-controls">
+                            <button id="splitButton" class="primary-button sidebar-primary" data-translate="splitFile">Split File</button>
+                            <button id="cancelButton" class="cancel-button sidebar-cancel" style="display: none;" data-translate="cancel">Cancel</button>
+                        </div>
+                    </section>
+
+                    <!-- Multi-File Options Section -->
+                    <section class="sidebar-section" id="multiOptionsSection" style="display: none;">
+                        <h3 class="sidebar-heading">
+                            <span class="step-number">3</span>
+                            <span data-translate="batchOptions">Batch Options</span>
+                        </h3>
+
+                        <div class="sidebar-option-group">
+                            <label class="sidebar-label" data-translate="splitMethod">Split Method:</label>
+                            <div class="sidebar-radio-group">
+                                <label class="sidebar-radio"><input type="radio" name="multiSplitMethod" value="bySheet" checked> <span data-translate="worksheets">Worksheets</span></label>
+                                <label class="sidebar-radio"><input type="radio" name="multiSplitMethod" value="byRowCount"> <span data-translate="rows">Rows</span></label>
+                                <label class="sidebar-radio"><input type="radio" name="multiSplitMethod" value="byFileSize"> <span data-translate="size">Size</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Row Count Options -->
+                        <div id="multiRowCountOptions" class="sidebar-details" style="display: none;">
+                            <input type="number" id="multiRowsPerFile" value="1000" min="1" class="sidebar-input" data-translate-placeholder="rowsPerFile" placeholder="Rows per file">
+                            <label class="sidebar-checkbox">
+                                <input type="checkbox" id="multiIncludeHeaders" checked> <span data-translate="includeHeaders">Include headers</span>
+                            </label>
+                        </div>
+
+                        <!-- File Size Options -->
+                        <div id="multiFileSizeOptions" class="sidebar-details" style="display: none;">
+                            <div class="sidebar-size-group">
+                                <input type="number" id="multiMaxFileSize" value="5" min="0.1" step="0.1" class="sidebar-input">
+                                <select id="multiFileSizeUnit" class="sidebar-input">
+                                    <option value="MB">MB</option>
+                                    <option value="KB">KB</option>
+                                    <option value="GB">GB</option>
+                                </select>
+                            </div>
+                            <label class="sidebar-checkbox">
+                                <input type="checkbox" id="multiIncludeHeadersSize" checked> <span data-translate="includeHeaders">Include headers</span>
+                            </label>
+                        </div>
+
+                        <div class="sidebar-option-group">
+                            <label class="sidebar-label" data-translate="outputFormat">Output Format:</label>
+                            <div class="sidebar-format-grid">
+                                <label class="sidebar-inline"><input type="radio" name="multiOutputFormat" value="xlsx" checked> <span data-translate="excelFormat">Excel (.xlsx)</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="multiOutputFormat" value="csv"> <span data-translate="csvFormat">CSV (.csv)</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="multiOutputFormat" value="ods"> <span data-translate="odsFormat">OpenOffice (.ods)</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="multiOutputFormat" value="gsheet"> <span data-translate="gsheetFormat">Google Sheets</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="multiOutputFormat" value="all"> <span data-translate="allFormats">All Formats</span></label>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-option-group">
+                            <label class="sidebar-label" data-translate="naming">Naming:</label>
+                            <div class="sidebar-inline-options">
+                                <label class="sidebar-inline"><input type="radio" name="multiNamingScheme" value="descriptive" checked> <span data-translate="descriptive">Descriptive</span></label>
+                                <label class="sidebar-inline"><input type="radio" name="multiNamingScheme" value="numbered"> <span data-translate="numbered">Numbered</span></label>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-controls">
+                            <button id="startBatchProcessingButton" class="primary-button sidebar-primary" data-translate="startBatchProcessing">Start Batch Processing</button>
+                            <button id="cancelBatchProcessingButton" class="cancel-button sidebar-cancel" style="display: none;" data-translate="cancel">Cancel</button>
+                        </div>
+                    </section>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <div class="content-header">
+                    <div class="header-left">
+                        <h2 id="contentTitle" data-translate="splitResults">Split Results</h2>
+                        <div class="content-status" id="contentStatus" data-translate="selectProcessingMode">
+                            Select processing mode and upload files to begin
+                        </div>
+                    </div>
+
+                    <!-- Unified Progress Section in Header -->
+                    <div class="header-progress" id="headerProgress" style="display: none;">
+                        <div class="progress-container">
+                            <div class="progress-bar header-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                            <div class="progress-info">
+                                <div class="progress-status">
+                                    <div id="progressText" class="progress-text">Initializing...</div>
+                                    <div id="timeEstimate" class="time-estimate">Estimating time...</div>
+                                </div>
+                                <div id="progressDetails" class="progress-details">Preparing to process files...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-area" id="resultsArea">
+                    <!-- File Queue Section (for multi-file mode) -->
+                    <div class="processing-summary main-summary" id="fileQueueSection" style="display: none;">
+                        <div class="summary-header">
+                            <h3>File Queue</h3>
+                            <div class="queue-controls">
+                                <button id="addMoreFilesButton" class="secondary-button small-button">Add More</button>
+                                <button id="clearQueueButton" class="text-button small-button">Clear All</button>
+                            </div>
+                        </div>
+                        <div id="fileQueueList" class="file-queue-list"></div>
+                    </div>
+
+                    <!-- Multi-File Results Section -->
+                    <div class="processing-summary main-summary" id="multiResultsSection" style="display: none;">
+                        <div class="summary-header">
+                            <h3>Batch Processing Results</h3>
+                            <div class="results-controls">
+                                <button id="downloadAllMultiButton" class="primary-button small-button">
+                                    <i class="fas fa-download"></i>
+                                    Download All (ZIP)
+                                </button>
+                                <button id="clearMultiResultsButton" class="text-button small-button">Clear Results</button>
+                            </div>
+                        </div>
+                        <div id="multiResultsList" class="multi-results-list"></div>
+                    </div>
+
+                    <!-- Processing Summary -->
+                    <div id="processingSummary" class="processing-summary main-summary" style="display: none;">
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <span class="summary-label">Files Created</span>
+                                <span id="filesCreatedCount" class="summary-value">0</span>
+                            </div>
+                            <div class="summary-card">
+                                <span class="summary-label">Total Size</span>
+                                <span id="totalSizeValue" class="summary-value">0 MB</span>
+                            </div>
+                            <div class="summary-card">
+                                <span class="summary-label">Processing Time</span>
+                                <span id="processingTimeValue" class="summary-value">0s</span>
+                            </div>
+                            <div class="summary-card">
+                                <span class="summary-label">Average Size</span>
+                                <span id="avgFileSizeValue" class="summary-value">0 MB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Controls -->
+                    <div class="results-controls main-controls" id="resultsControls" style="display: none;">
+                        <button id="previewButton" class="secondary-button">Preview Results</button>
+                        <button id="downloadAllButton" class="secondary-button">Download All (ZIP)</button>
+                        <button id="resetButton" class="text-button">Start Over</button>
+                    </div>
+
+                    <!-- Results List -->
+                    <div id="resultsList" class="results-list main-results"></div>
+                </div>
+            </main>
+
+        </main>
+
+        <!-- Preview Modal -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content preview-modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Split Results Preview</h2>
+                <div id="previewContent" class="preview-content"></div>
+            </div>
+        </div>
+
+        <!-- Completion Notification Modal -->
+        <div id="completionModal" class="modal completion-modal">
+            <div class="modal-content completion-content">
+                <div class="completion-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                </div>
+                <h2>Processing Complete!</h2>
+                <div id="completionMessage" class="completion-message">
+                    Your file has been successfully split into multiple files.
+                </div>
+                <div class="completion-stats" id="completionStats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="completionFileCount">0</span>
+                        <span class="stat-label">Files Created</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="completionTime">0s</span>
+                        <span class="stat-label">Processing Time</span>
+                    </div>
+                </div>
+                <div class="completion-actions">
+                    <button id="viewResultsButton" class="primary-button">View Results</button>
+                    <button id="dismissNotificationButton" class="secondary-button">Dismiss</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio element for notification sound -->
+        <audio id="completionSound" preload="auto">
+            <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+        </audio>
+
+        <footer class="enhanced-footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p data-translate="copyrightText">&copy; 2025 Easy Sheets Divider | Privacy-First File Processing</p>
+                </div>
+                <div class="footer-actions">
+                    <button id="donateButton" class="support-button" onclick="openDonationWindow()">
+                        <i class="fas fa-heart"></i>
+                        <span data-translate="supportDevelopment">Support Development</span>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="security-config.js"></script>
+    <script src="js/memory-manager.js"></script>
+    <script src="js/progressive-loader.js"></script>
+    <script src="js/conditional-splitter.js"></script>
+    <script src="js/enhanced-drag-drop.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
