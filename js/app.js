@@ -356,7 +356,7 @@ const translations = {
         privacyFirst: 'Privacy-First',
 
         // Main Content
-        splitResults: '3. Split Results',
+        splitResults: '5. Processing Results',
         uploadFileToBegin: 'Upload a file to begin splitting',
         selectProcessingMode: 'Select processing mode and upload files to begin',
 
@@ -683,7 +683,7 @@ const translations = {
         privacyFirst: 'Privacidad Primero',
 
         // Main Content
-        splitResults: '3. Resultados de División',
+        splitResults: '5. Resultados del Procesamiento',
         uploadFileToBegin: 'Sube un archivo para comenzar la división',
         selectProcessingMode: 'Selecciona el modo de procesamiento y sube archivos para comenzar',
 
@@ -989,7 +989,7 @@ const translations = {
         privacyFirst: 'Confidentialité d\'Abord',
 
         // Main Content
-        splitResults: '3. Résultats de Division',
+        splitResults: '5. Résultats du Traitement',
         uploadFileToBegin: 'Téléchargez un fichier pour commencer la division',
         selectProcessingMode: 'Sélectionnez le mode de traitement et téléchargez des fichiers pour commencer',
 
@@ -1295,7 +1295,7 @@ const translations = {
         privacyFirst: 'Datenschutz Zuerst',
 
         // Main Content
-        splitResults: '3. Aufteilungsergebnisse',
+        splitResults: '5. Verarbeitungsergebnisse',
         uploadFileToBegin: 'Laden Sie eine Datei hoch, um mit der Aufteilung zu beginnen',
         selectProcessingMode: 'Wählen Sie den Verarbeitungsmodus und laden Sie Dateien hoch, um zu beginnen',
 
@@ -1601,7 +1601,7 @@ const translations = {
         privacyFirst: '개인정보 보호 우선',
 
         // Main Content
-        splitResults: '3단계 분할 결과',
+        splitResults: '5단계 처리 결과',
         uploadFileToBegin: '분할을 시작하려면 파일을 업로드하세요',
         selectProcessingMode: '처리 모드를 선택하고 파일을 업로드하여 시작하세요',
 
